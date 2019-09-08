@@ -70,6 +70,7 @@ func main() {
 	if err != nil {
 		exit(err)
 	}
+	fmt.Printf("LoadConfList found net %q's netconf in netdir %v\n", os.Args[2], netdir)
 
 	var capabilityArgs map[string]interface{}
 	capabilityArgsValue := os.Getenv(EnvCapabilityArgs)
@@ -104,6 +105,7 @@ func main() {
 	containerID := fmt.Sprintf("cnitool-%x", s[:10])
 
 	cninet := libcni.NewCNIConfig(filepath.SplitList(os.Getenv(EnvCNIPath)), nil)
+	fmt.Printf("libcni.NewCNIConfig with EnvCNIPath %q, get %+v\n", os.Getenv(EnvCNIPath), cninet)
 
 	rt := &libcni.RuntimeConf{
 		ContainerID:    containerID,

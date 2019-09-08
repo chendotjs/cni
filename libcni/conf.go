@@ -183,11 +183,13 @@ func LoadConf(dir, name string) (*NetworkConfig, error) {
 }
 
 func LoadConfList(dir, name string) (*NetworkConfigList, error) {
+	fmt.Printf("LoadConfList begin: %v %v\n", dir, name)
 	files, err := ConfFiles(dir, []string{".conflist"})
 	if err != nil {
 		return nil, err
 	}
 	sort.Strings(files)
+	fmt.Println("conflist files includes ", files)
 
 	for _, confFile := range files {
 		conf, err := ConfListFromFile(confFile)
@@ -195,6 +197,7 @@ func LoadConfList(dir, name string) (*NetworkConfigList, error) {
 			return nil, err
 		}
 		if conf.Name == name {
+			fmt.Printf("find network %v, NetworkConfigList created: %+v\n", name, conf)
 			return conf, nil
 		}
 	}

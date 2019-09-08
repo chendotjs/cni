@@ -74,6 +74,11 @@ type Exec interface {
 //}
 
 func ExecPluginWithResult(ctx context.Context, pluginPath string, netconf []byte, args CNIArgs, exec Exec) (types.Result, error) {
+	fmt.Printf("ExecPluginWithResult begin\n")
+	fmt.Printf("ExecPluginWithResult pluginPath: %v\n", pluginPath)
+	fmt.Printf("ExecPluginWithResult netconf: %v\n", string(netconf))
+	fmt.Printf("ExecPluginWithResult args: %+v\n", args)
+
 	if exec == nil {
 		exec = defaultExec
 	}

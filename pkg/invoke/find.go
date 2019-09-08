@@ -22,6 +22,8 @@ import (
 
 // FindInPath returns the full path of the plugin by searching in the provided path
 func FindInPath(plugin string, paths []string) (string, error) {
+	fmt.Printf("FindInPath begin: search plugin %q in %v\n", plugin, paths)
+
 	if plugin == "" {
 		return "", fmt.Errorf("no plugin name provided")
 	}
@@ -34,6 +36,7 @@ func FindInPath(plugin string, paths []string) (string, error) {
 		for _, fe := range ExecutableFileExtensions {
 			fullpath := filepath.Join(path, plugin) + fe
 			if fi, err := os.Stat(fullpath); err == nil && fi.Mode().IsRegular() {
+				fmt.Printf("FindInPath ends: plugin %q found %v\n", plugin, fullpath)
 				return fullpath, nil
 			}
 		}

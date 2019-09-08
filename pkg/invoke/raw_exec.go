@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"strings"
 
 	"github.com/containernetworking/cni/pkg/types"
 )
@@ -30,6 +31,17 @@ type RawExec struct {
 }
 
 func (e *RawExec) ExecPlugin(ctx context.Context, pluginPath string, stdinData []byte, environ []string) ([]byte, error) {
+	fmt.Printf("ExecPlugin begin\n")
+	fmt.Printf("ExecPlugin pluginPath: %v\n", pluginPath)
+	fmt.Printf("ExecPlugin stdinData: %v\n", string(stdinData))
+	fmt.Printf("ExecPlugin environ: %v\n", environ)
+	for _, env := range environ {
+		if strings.Contains(env, "CNI_") {
+			fmt.Println(env)
+		}
+	}
+	// 一个CNI插件就是一个可执行文件，我们从配置文件中获取network配置信息，从容器管理系统处获取运行时信息，再将前者以标准输入的形式，后者以环境变量的形式传递传递给插件
+
 	stdout := &bytes.Buffer{}
 	c := exec.CommandContext(ctx, pluginPath)
 	c.Env = environ
